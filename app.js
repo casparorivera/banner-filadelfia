@@ -1,6 +1,6 @@
 /* =========================================================
    BANNER FILADELFIA
-   Motor del generador
+   Generador de banners
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,24 +24,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const downloadButton = document.getElementById("downloadButton");
 
+
     /* =====================================================
        ELEMENTOS DEL BANNER
        ===================================================== */
 
     const banner = document.getElementById("banner");
-    const bannerBackground = document.getElementById("bannerBackground");
-    const bannerLogo = document.getElementById("bannerLogo");
+    const bannerBackground =
+        document.getElementById("bannerBackground");
 
-    const bannerTitle = document.getElementById("bannerTitle");
-    const bannerSubtitle = document.getElementById("bannerSubtitle");
+    const bannerLogo =
+        document.getElementById("bannerLogo");
 
-    const bannerDate = document.getElementById("bannerDate");
-    const bannerTime = document.getElementById("bannerTime");
+    const bannerTitle =
+        document.getElementById("bannerTitle");
 
-    const bannerLocation = document.getElementById("bannerLocation");
-    const bannerExtra = document.getElementById("bannerExtra");
+    const bannerSubtitle =
+        document.getElementById("bannerSubtitle");
 
-    const formatLabel = document.getElementById("formatLabel");
+    const bannerDate =
+        document.getElementById("bannerDate");
+
+    const bannerTime =
+        document.getElementById("bannerTime");
+
+    const bannerLocation =
+        document.getElementById("bannerLocation");
+
+    const bannerExtra =
+        document.getElementById("bannerExtra");
+
+    const formatLabel =
+        document.getElementById("formatLabel");
+
+    const separator =
+        document.querySelector(".separator");
+
+    const overlay =
+        document.getElementById("bannerOverlay");
 
 
     /* =====================================================
@@ -60,39 +80,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            const response = await fetch("templates.json");
+            const response =
+                await fetch("templates.json");
 
             if (!response.ok) {
-                throw new Error("No se pudo cargar templates.json");
+                throw new Error(
+                    "No se pudo cargar templates.json"
+                );
             }
 
-            templates = await response.json();
+            templates =
+                await response.json();
 
             templateSelect.innerHTML = "";
 
-            Object.keys(templates).forEach((templateId) => {
 
-                const template = templates[templateId];
+            Object.keys(templates).forEach(
+                (templateId) => {
 
-                const option = document.createElement("option");
+                    const template =
+                        templates[templateId];
 
-                option.value = templateId;
-                option.textContent = template.name;
+                    const option =
+                        document.createElement("option");
 
-                templateSelect.appendChild(option);
+                    option.value =
+                        templateId;
 
-            });
+                    option.textContent =
+                        template.name;
+
+                    templateSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
 
 
-            /* Seleccionar la primera plantilla */
+            /* Seleccionar primera plantilla */
 
-            const firstTemplate = Object.keys(templates)[0];
+            const firstTemplate =
+                Object.keys(templates)[0];
 
             if (firstTemplate) {
 
-                templateSelect.value = firstTemplate;
+                templateSelect.value =
+                    firstTemplate;
 
-                currentTemplate = templates[firstTemplate];
+                currentTemplate =
+                    templates[firstTemplate];
 
                 applyTemplate();
 
@@ -123,10 +160,33 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const template = currentTemplate;
+        const template =
+            currentTemplate;
 
 
-        /* Fondo de la plantilla */
+        /* -------------------------------------------------
+           CLASE DE PLANTILLA
+           ------------------------------------------------- */
+
+        banner.classList.remove(
+            "template-worship",
+            "template-elegante",
+            "template-minimalista"
+        );
+
+
+        if (templateSelect.value) {
+
+            banner.classList.add(
+                `template-${templateSelect.value}`
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           FONDO
+           ------------------------------------------------- */
 
         if (template.background) {
 
@@ -136,71 +196,91 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* Color del texto */
+        /* -------------------------------------------------
+           COLOR DEL TEXTO
+           ------------------------------------------------- */
 
         if (template.textColor) {
 
-            banner.style.color = template.textColor;
+            banner.style.color =
+                template.textColor;
 
         }
 
 
-        /* Capa oscura */
+        /* -------------------------------------------------
+           OVERLAY
+           ------------------------------------------------- */
 
-        const overlay = document.getElementById("bannerOverlay");
+        if (template.overlay) {
 
-        if (overlay && template.overlay) {
-
-            overlay.style.background = template.overlay;
+            overlay.style.background =
+                template.overlay;
 
         }
 
 
-        /* Título */
+        /* -------------------------------------------------
+           TÍTULO
+           ------------------------------------------------- */
 
         if (template.title) {
 
             if (template.title.fontSize) {
+
                 bannerTitle.style.fontSize =
                     template.title.fontSize;
+
             }
 
             if (template.title.fontWeight) {
+
                 bannerTitle.style.fontWeight =
                     template.title.fontWeight;
+
             }
 
             if (template.title.letterSpacing) {
+
                 bannerTitle.style.letterSpacing =
                     template.title.letterSpacing;
+
             }
 
             if (template.title.textTransform) {
+
                 bannerTitle.style.textTransform =
                     template.title.textTransform;
+
             }
 
         }
 
 
-        /* Subtítulo */
+        /* -------------------------------------------------
+           SUBTÍTULO
+           ------------------------------------------------- */
 
         if (template.subtitle) {
 
             if (template.subtitle.fontSize) {
+
                 bannerSubtitle.style.fontSize =
                     template.subtitle.fontSize;
+
             }
 
             if (template.subtitle.fontWeight) {
+
                 bannerSubtitle.style.fontWeight =
                     template.subtitle.fontWeight;
+
             }
 
         }
 
 
-        /* Actualizar información */
+        /* Actualizar banner */
 
         updateBanner();
 
@@ -213,37 +293,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateBanner() {
 
+
+        /* -------------------------------------------------
+           TÍTULO
+           ------------------------------------------------- */
+
         bannerTitle.textContent =
             titleInput.value.trim() ||
             "Título del evento";
 
+
+        /* -------------------------------------------------
+           SUBTÍTULO
+           ------------------------------------------------- */
 
         bannerSubtitle.textContent =
             subtitleInput.value.trim() ||
             "Subtítulo del evento";
 
 
+        /* -------------------------------------------------
+           FECHA
+           ------------------------------------------------- */
+
         bannerDate.textContent =
             dateInput.value.trim() ||
             "Fecha";
 
+
+        /* -------------------------------------------------
+           HORA
+           ------------------------------------------------- */
 
         bannerTime.textContent =
             timeInput.value.trim() ||
             "Hora";
 
 
+        /* -------------------------------------------------
+           LUGAR
+           ------------------------------------------------- */
+
         bannerLocation.textContent =
             locationInput.value.trim() ||
             "Lugar";
 
+
+        /* -------------------------------------------------
+           TEXTO EXTRA
+           ------------------------------------------------- */
 
         bannerExtra.textContent =
             extraInput.value.trim() ||
             "Texto adicional";
 
 
-        /* Mostrar u ocultar elementos vacíos */
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR SUBTÍTULO
+           ------------------------------------------------- */
 
         bannerSubtitle.style.display =
             subtitleInput.value.trim()
@@ -251,11 +358,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR FECHA
+           ------------------------------------------------- */
+
         bannerDate.style.display =
             dateInput.value.trim()
                 ? "inline"
                 : "none";
 
+
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR HORA
+           ------------------------------------------------- */
 
         bannerTime.style.display =
             timeInput.value.trim()
@@ -263,17 +378,42 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR SEPARADOR
+           ------------------------------------------------- */
+
+        if (separator) {
+
+            separator.style.display =
+                dateInput.value.trim() &&
+                timeInput.value.trim()
+                    ? "inline"
+                    : "none";
+
+        }
+
+
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR LUGAR
+           ------------------------------------------------- */
+
         bannerLocation.style.display =
             locationInput.value.trim()
                 ? "block"
                 : "none";
 
 
+        /* -------------------------------------------------
+           MOSTRAR / OCULTAR TEXTO EXTRA
+           ------------------------------------------------- */
+
         bannerExtra.style.display =
             extraInput.value.trim()
                 ? "block"
                 : "none";
 
+
+        /* Actualizar formato */
 
         updateFormat();
 
@@ -286,7 +426,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateFormat() {
 
-        const format = formatSelect.value;
+        const format =
+            formatSelect.value;
 
 
         banner.classList.remove(
@@ -296,8 +437,14 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        banner.classList.add(format);
+        banner.classList.add(
+            format
+        );
 
+
+        /* -------------------------------------------------
+           ETIQUETA DEL FORMATO
+           ------------------------------------------------- */
 
         if (format === "square") {
 
@@ -329,54 +476,71 @@ document.addEventListener("DOMContentLoaded", () => {
        CARGAR IMAGEN DE FONDO
        ===================================================== */
 
-    imageInput.addEventListener("change", (event) => {
+    imageInput.addEventListener(
+        "change",
+        (event) => {
 
-        const file = event.target.files[0];
+            const file =
+                event.target.files[0];
 
-        if (!file) {
-            return;
+            if (!file) {
+                return;
+            }
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                (e) => {
+
+                    bannerBackground.style.backgroundImage =
+                        `url("${e.target.result}")`;
+
+                };
+
+
+            reader.readAsDataURL(file);
+
         }
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-
-            bannerBackground.style.backgroundImage =
-                `url("${e.target.result}")`;
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
+    );
 
 
     /* =====================================================
        CARGAR LOGO
        ===================================================== */
 
-    logoInput.addEventListener("change", (event) => {
+    logoInput.addEventListener(
+        "change",
+        (event) => {
 
-        const file = event.target.files[0];
+            const file =
+                event.target.files[0];
 
-        if (!file) {
-            return;
+            if (!file) {
+                return;
+            }
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                (e) => {
+
+                    bannerLogo.src =
+                        e.target.result;
+
+                    bannerLogo.style.display =
+                        "block";
+
+                };
+
+
+            reader.readAsDataURL(file);
+
         }
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-
-            bannerLogo.src = e.target.result;
-
-            bannerLogo.style.display =
-                "block";
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
+    );
 
 
     /* =====================================================
@@ -393,31 +557,36 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    inputs.forEach((input) => {
+    inputs.forEach(
+        (input) => {
 
-        input.addEventListener(
-            "input",
-            updateBanner
-        );
+            input.addEventListener(
+                "input",
+                updateBanner
+            );
 
-    });
+        }
+    );
 
 
     /* =====================================================
        CAMBIAR PLANTILLA
        ===================================================== */
 
-    templateSelect.addEventListener("change", () => {
+    templateSelect.addEventListener(
+        "change",
+        () => {
 
-        const selected =
-            templateSelect.value;
+            const selected =
+                templateSelect.value;
 
-        currentTemplate =
-            templates[selected];
+            currentTemplate =
+                templates[selected];
 
-        applyTemplate();
+            applyTemplate();
 
-    });
+        }
+    );
 
 
     /* =====================================================
@@ -438,13 +607,17 @@ document.addEventListener("DOMContentLoaded", () => {
         "click",
         async () => {
 
-            if (typeof html2canvas === "undefined") {
+            if (
+                typeof html2canvas ===
+                "undefined"
+            ) {
 
                 alert(
                     "No se pudo cargar el sistema de generación de imágenes."
                 );
 
                 return;
+
             }
 
 
@@ -455,7 +628,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 banner.style.height;
 
 
-            /* Determinar tamaño real */
+            /* -------------------------------------------------
+               TAMAÑO REAL DE EXPORTACIÓN
+               ------------------------------------------------- */
 
             const format =
                 formatSelect.value;
@@ -494,7 +669,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /* Crear imagen */
+            /* -------------------------------------------------
+               GENERAR IMAGEN
+               ------------------------------------------------- */
 
             try {
 
@@ -513,18 +690,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.createElement("a");
 
 
-                const title =
-                    titleInput.value.trim()
-                        .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g, "")
-                        .replace(/\s+/g, "-");
+                let fileName =
+                    titleInput.value.trim();
+
+
+                fileName =
+                    fileName
+                        .replace(
+                            /[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g,
+                            ""
+                        )
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        );
+
+
+                if (!fileName) {
+
+                    fileName =
+                        "banner-filadelfia";
+
+                }
 
 
                 link.download =
-                    `${title || "banner-filadelfia"}.png`;
+                    `${fileName}.png`;
 
 
                 link.href =
-                    canvas.toDataURL("image/png");
+                    canvas.toDataURL(
+                        "image/png"
+                    );
 
 
                 link.click();
@@ -541,7 +738,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /* Restaurar tamaño de vista previa */
+            /* -------------------------------------------------
+               RESTAURAR VISTA PREVIA
+               ------------------------------------------------- */
 
             banner.style.width =
                 originalWidth;
@@ -550,7 +749,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 originalHeight;
 
         }
-
     );
 
 
