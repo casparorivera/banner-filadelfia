@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Banner Filadelfia</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <!-- Librería para convertir el banner en PNG -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
-
 <body>
 
 <header class="topbar">
@@ -21,428 +16,264 @@
     </div>
 </header>
 
-
 <main class="app-container">
 
-    <!-- =========================
-         PANEL DE CONFIGURACIÓN
-    ========================== -->
-
-    <section class="panel controls-panel">
-
-        <h2>Crear banner</h2>
-
-
-        <!-- PLANTILLA -->
-
-        <div class="form-group">
-
-            <label for="templateSelect">
-                Plantilla
-            </label>
-
-            <select id="templateSelect">
-                <option value="">
-                    Cargando plantillas...
-                </option>
-            </select>
-
-        </div>
-
-
-        <!-- FORMATO -->
-
-        <div class="form-group">
-
-            <label for="formatSelect">
-                Formato
-            </label>
-
-            <select id="formatSelect">
-
-                <option value="square">
-                    Instagram / WhatsApp — 1080 × 1080
-                </option>
-
-                <option value="story">
-                    Historia — 1080 × 1920
-                </option>
-
-                <option value="facebook">
-                    Facebook — 1200 × 628
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- TÍTULO -->
-
-        <div class="form-group">
-
-            <label for="titleInput">
-                Título
-            </label>
-
-            <input
-                type="text"
-                id="titleInput"
-                placeholder="Ej: Noche de Adoración"
-            >
-
-        </div>
-
-
-        <!-- SUBTÍTULO -->
-
-        <div class="form-group">
-
-            <label for="subtitleInput">
-                Subtítulo
-            </label>
-
-            <textarea
-                id="subtitleInput"
-                rows="3"
-                placeholder="Ej: Una noche para encontrarnos con Dios"
-            ></textarea>
-
-        </div>
-
-
-        <!-- FECHA -->
-
-        <div class="form-group">
-
-            <label for="dateInput">
-                Fecha
-            </label>
-
-            <input
-                type="text"
-                id="dateInput"
-                placeholder="Viernes 20 de septiembre"
-            >
-
-        </div>
-
-
-        <!-- HORA -->
-
-        <div class="form-group">
-
-            <label for="timeInput">
-                Hora
-            </label>
-
-            <input
-                type="text"
-                id="timeInput"
-                placeholder="7:00 p. m."
-            >
-
-        </div>
-
-
-        <!-- LUGAR -->
-
-        <div class="form-group">
-
-            <label for="locationInput">
-                Lugar
-            </label>
-
-            <input
-                type="text"
-                id="locationInput"
-                placeholder="Iglesia Filadelfia"
-            >
-
-        </div>
-
-
-        <!-- TEXTO EXTRA -->
-
-        <div class="form-group">
-
-            <label for="extraInput">
-                Texto adicional
-            </label>
-
-            <input
-                type="text"
-                id="extraInput"
-                placeholder="Entrada libre"
-            >
-
-        </div>
-
-
-        <!-- IMAGEN DE FONDO -->
-
-        <div class="form-group">
-
-            <label for="imageInput">
-                Imagen de fondo
-            </label>
-
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/*"
-            >
-
-        </div>
-
-
-        <!-- LOGO -->
-
-        <div class="form-group">
-
-            <label for="logoInput">
-                Logo
-            </label>
-
-            <input
-                type="file"
-                id="logoInput"
-                accept="image/*"
-            >
-
-        </div>
-
-
-        <!-- TAMAÑO DEL LOGO -->
-
-        <div class="form-group" id="logo-size-group">
-
-            <label for="logoSizeInput">
-                Tamaño del logo
-            </label>
-
-            <div class="range-control">
-
-                <input
-                    type="range"
-                    id="logoSizeInput"
-                    min="5"
-                    max="30"
-                    value="15"
-                    step="1"
-                >
-
-                <span id="logoSizeValue">
-                    15%
-                </span>
-
+<section class="panel controls-panel">
+    <h2>Crear banner</h2>
+
+    <div class="form-group">
+        <label for="templateSelect">Plantilla</label>
+        <select id="templateSelect">
+            <option value="">Cargando plantillas...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="formatSelect">Formato</label>
+        <select id="formatSelect">
+            <option value="square">Instagram / WhatsApp — 1080 × 1080</option>
+            <option value="story">Historia — 1080 × 1920</option>
+            <option value="facebook">Facebook — 1200 × 628</option>
+        </select>
+    </div>
+
+    <!-- TÍTULO -->
+    <div class="form-group">
+        <label for="titleInput">Título</label>
+        <input type="text" id="titleInput" placeholder="Ej: Noche de Adoración">
+
+        <div class="text-position-control">
+            <label for="titleHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="titleHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
             </div>
-
+            <div class="position-value"><span id="titleHorizontalValue">0</span> px</div>
         </div>
 
+        <div class="text-position-control">
+            <label for="titleVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="titleVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="titleVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-        <!-- POSICIÓN DEL LOGO -->
+    <!-- SUBTÍTULO -->
+    <div class="form-group">
+        <label for="subtitleInput">Subtítulo</label>
+        <textarea id="subtitleInput" rows="3" placeholder="Ej: Una noche para encontrarnos con Dios"></textarea>
 
-        <div class="form-group" id="logo-position-group">
-
-            <label for="logoPositionInput">
-                Posición del logo
-            </label>
-
-            <select id="logoPositionInput">
-
-                <option value="top-left">
-                    ↖ Arriba izquierda
-                </option>
-
-                <option value="top-center" selected>
-                    ↑ Arriba centro
-                </option>
-
-                <option value="top-right">
-                    ↗ Arriba derecha
-                </option>
-
-                <option value="center-left">
-                    ← Centro izquierda
-                </option>
-
-                <option value="center">
-                    ● Centro
-                </option>
-
-                <option value="center-right">
-                    → Centro derecha
-                </option>
-
-                <option value="bottom-left">
-                    ↙ Abajo izquierda
-                </option>
-
-                <option value="bottom-center">
-                    ↓ Abajo centro
-                </option>
-
-                <option value="bottom-right">
-                    ↘ Abajo derecha
-                </option>
-
-            </select>
-
+        <div class="text-position-control">
+            <label for="subtitleHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="subtitleHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="subtitleHorizontalValue">0</span> px</div>
         </div>
 
+        <div class="text-position-control">
+            <label for="subtitleVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="subtitleVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="subtitleVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-        <!-- BOTÓN -->
+    <!-- FECHA -->
+    <div class="form-group">
+        <label for="dateInput">Fecha</label>
+        <input type="text" id="dateInput" placeholder="Viernes 20 de septiembre">
 
-        <button
-            id="downloadButton"
-            class="download-button"
-        >
-            ⬇ Generar PNG
-        </button>
-
-    </section>
-
-
-    <!-- =========================
-         PANEL DE VISTA PREVIA
-    ========================== -->
-
-    <section class="panel preview-panel">
-
-        <div class="preview-header">
-
-            <h2>
-                Vista previa
-            </h2>
-
-            <span id="formatLabel">
-                1080 × 1080
-            </span>
-
+        <div class="text-position-control">
+            <label for="dateHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="dateHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="dateHorizontalValue">0</span> px</div>
         </div>
 
+        <div class="text-position-control">
+            <label for="dateVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="dateVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="dateVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-        <div class="preview-area">
+    <!-- HORA -->
+    <div class="form-group">
+        <label for="timeInput">Hora</label>
+        <input type="text" id="timeInput" placeholder="7:00 p. m.">
 
-            <div
-                id="banner"
-                class="banner square"
-            >
+        <div class="text-position-control">
+            <label for="timeHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="timeHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="timeHorizontalValue">0</span> px</div>
+        </div>
 
-                <!-- FONDO -->
+        <div class="text-position-control">
+            <label for="timeVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="timeVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="timeVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-                <div
-                    id="bannerBackground"
-                    class="banner-background"
-                ></div>
+    <!-- LUGAR -->
+    <div class="form-group">
+        <label for="locationInput">Lugar</label>
+        <input type="text" id="locationInput" placeholder="Iglesia Filadelfia">
 
+        <div class="text-position-control">
+            <label for="locationHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="locationHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="locationHorizontalValue">0</span> px</div>
+        </div>
 
-                <!-- CAPA OSCURA -->
+        <div class="text-position-control">
+            <label for="locationVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="locationVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="locationVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-                <div
-                    id="bannerOverlay"
-                    class="banner-overlay"
-                ></div>
+    <!-- TEXTO ADICIONAL -->
+    <div class="form-group">
+        <label for="extraInput">Texto adicional</label>
+        <input type="text" id="extraInput" placeholder="Entrada libre">
 
+        <div class="text-position-control">
+            <label for="extraHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="extraHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="extraHorizontalValue">0</span> px</div>
+        </div>
 
-                <!-- CONTENIDO -->
+        <div class="text-position-control">
+            <label for="extraVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="extraVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="extraVerticalValue">0</span> px</div>
+        </div>
+    </div>
 
-                <div class="banner-content">
+    <div class="form-group">
+        <label for="imageInput">Imagen de fondo</label>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
 
+    <div class="form-group">
+        <label for="logoInput">Logo</label>
+        <input type="file" id="logoInput" accept="image/*">
+    </div>
 
-                    <!-- LOGO -->
+    <div class="form-group">
+        <label for="logoSizeInput">Tamaño del logo</label>
+        <div class="range-control">
+            <input type="range" id="logoSizeInput" min="5" max="30" value="15" step="1">
+            <span id="logoSizeValue">15%</span>
+        </div>
+    </div>
 
-                    <img
-                        id="bannerLogo"
-                        class="banner-logo"
-                        alt="Logo"
-                    >
+    <div class="form-group">
+        <label for="logoHorizontalInput">Posición horizontal del logo</label>
+        <div class="position-slider">
+            <span>←</span>
+            <input type="range" id="logoHorizontalInput" min="-45" max="45" value="0" step="1">
+            <span>→</span>
+        </div>
+        <div class="position-value"><span id="logoHorizontalValue">0</span> %</div>
+    </div>
 
+    <div class="form-group">
+        <label for="logoVerticalInput">Posición vertical del logo</label>
+        <div class="position-slider">
+            <span>↑</span>
+            <input type="range" id="logoVerticalInput" min="-45" max="45" value="0" step="1">
+            <span>↓</span>
+        </div>
+        <div class="position-value"><span id="logoVerticalValue">0</span> %</div>
+    </div>
 
-                    <!-- TÍTULO -->
+    <button id="downloadButton" class="download-button">⬇ Generar PNG</button>
+</section>
 
-                    <h1
-                        id="bannerTitle"
-                        class="banner-title"
-                    >
-                        Título del evento
-                    </h1>
+<section class="panel preview-panel">
+    <div class="preview-header">
+        <h2>Vista previa</h2>
+        <span id="formatLabel">1080 × 1080</span>
+    </div>
 
+    <div class="preview-area">
+        <div id="banner" class="banner square">
 
-                    <!-- SUBTÍTULO -->
+            <div id="bannerBackground" class="banner-background"></div>
+            <div id="bannerOverlay" class="banner-overlay"></div>
 
-                    <p
-                        id="bannerSubtitle"
-                        class="banner-subtitle"
-                    >
-                        Subtítulo del evento
-                    </p>
+            <div class="banner-content">
+                <img id="bannerLogo" class="banner-logo" alt="Logo">
 
+                <h1 id="bannerTitle" class="banner-title">Título del evento</h1>
 
-                    <!-- INFORMACIÓN -->
+                <p id="bannerSubtitle" class="banner-subtitle">
+                    Subtítulo del evento
+                </p>
 
-                    <div
-                        id="bannerInfo"
-                        class="banner-info"
-                    >
-
-                        <span id="bannerDate">
-                            Fecha
-                        </span>
-
-                        <span class="separator">
-                            •
-                        </span>
-
-                        <span id="bannerTime">
-                            Hora
-                        </span>
-
-                    </div>
-
-
-                    <!-- LUGAR -->
-
-                    <div
-                        id="bannerLocation"
-                        class="banner-location"
-                    >
-                        Lugar
-                    </div>
-
-
-                    <!-- TEXTO EXTRA -->
-
-                    <div
-                        id="bannerExtra"
-                        class="banner-extra"
-                    >
-                        Texto adicional
-                    </div>
-
-
+                <div id="bannerInfo" class="banner-info">
+                    <span id="bannerDate">Fecha</span>
+                    <span class="separator">•</span>
+                    <span id="bannerTime">Hora</span>
                 </div>
 
+                <div id="bannerLocation" class="banner-location">Lugar</div>
+                <div id="bannerExtra" class="banner-extra">Texto adicional</div>
             </div>
-
         </div>
-
-    </section>
+    </div>
+</section>
 
 </main>
 
-
 <footer>
-
-    <p>
-        Banner Filadelfia · Generador de diseños
-    </p>
-
+    <p>Banner Filadelfia · Generador de diseños</p>
 </footer>
 
-
 <script src="app.js"></script>
-
 </body>
 </html>
