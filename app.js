@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const textControls = {
         title: {
             element: bannerTitle,
+            fontInput: document.getElementById("titleFontInput"),
             horizontalInput: document.getElementById("titleHorizontalInput"),
             horizontalValue: document.getElementById("titleHorizontalValue"),
             verticalInput: document.getElementById("titleVerticalInput"),
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         subtitle: {
             element: bannerSubtitle,
+            fontInput: document.getElementById("subtitleFontInput"),
             horizontalInput: document.getElementById("subtitleHorizontalInput"),
             horizontalValue: document.getElementById("subtitleHorizontalValue"),
             verticalInput: document.getElementById("subtitleVerticalInput"),
@@ -49,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         date: {
             element: bannerDate,
+            fontInput: document.getElementById("dateFontInput"),
             horizontalInput: document.getElementById("dateHorizontalInput"),
             horizontalValue: document.getElementById("dateHorizontalValue"),
             verticalInput: document.getElementById("dateVerticalInput"),
@@ -56,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         time: {
             element: bannerTime,
+            fontInput: document.getElementById("timeFontInput"),
             horizontalInput: document.getElementById("timeHorizontalInput"),
             horizontalValue: document.getElementById("timeHorizontalValue"),
             verticalInput: document.getElementById("timeVerticalInput"),
@@ -63,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         location: {
             element: bannerLocation,
+            fontInput: document.getElementById("locationFontInput"),
             horizontalInput: document.getElementById("locationHorizontalInput"),
             horizontalValue: document.getElementById("locationHorizontalValue"),
             verticalInput: document.getElementById("locationVerticalInput"),
@@ -70,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         extra: {
             element: bannerExtra,
+            fontInput: document.getElementById("extraFontInput"),
             horizontalInput: document.getElementById("extraHorizontalInput"),
             horizontalValue: document.getElementById("extraHorizontalValue"),
             verticalInput: document.getElementById("extraVerticalInput"),
@@ -262,7 +268,18 @@ document.addEventListener("DOMContentLoaded", () => {
         control.verticalValue.textContent = vertical;
     }
 
+    function updateTextFont(control) {
+        if (!control.fontInput) return;
+        const font = control.fontInput.value;
+        control.element.style.fontFamily = `"${font}", sans-serif`;
+    }
+
     Object.values(textControls).forEach((control) => {
+        if (control.fontInput) {
+            control.fontInput.addEventListener("change", () => updateTextFont(control));
+            updateTextFont(control);
+        }
+
         control.horizontalInput.addEventListener("input", () => {
             updateTextPosition(control);
         });
@@ -371,6 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     Object.values(textControls).forEach((control) => {
         updateTextPosition(control);
+        updateTextFont(control);
     });
 
     updateBanner();
