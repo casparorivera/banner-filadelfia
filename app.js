@@ -1,396 +1,369 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-    const templateSelect = document.getElementById("templateSelect");
-    const formatSelect = document.getElementById("formatSelect");
-    const titleInput = document.getElementById("titleInput");
-    const subtitleInput = document.getElementById("subtitleInput");
-    const dateInput = document.getElementById("dateInput");
-    const timeInput = document.getElementById("timeInput");
-    const locationInput = document.getElementById("locationInput");
-    const extraInput = document.getElementById("extraInput");
-    const imageInput = document.getElementById("imageInput");
-    const logoInput = document.getElementById("logoInput");
-    const downloadButton = document.getElementById("downloadButton");
-
-    const logoSizeInput = document.getElementById("logoSizeInput");
-    const logoSizeValue = document.getElementById("logoSizeValue");
-    const logoHorizontalInput = document.getElementById("logoHorizontalInput");
-    const logoHorizontalValue = document.getElementById("logoHorizontalValue");
-    const logoVerticalInput = document.getElementById("logoVerticalInput");
-    const logoVerticalValue = document.getElementById("logoVerticalValue");
-
-    const banner = document.getElementById("banner");
-    const bannerBackground = document.getElementById("bannerBackground");
-    const bannerLogo = document.getElementById("bannerLogo");
-    const bannerTitle = document.getElementById("bannerTitle");
-    const bannerSubtitle = document.getElementById("bannerSubtitle");
-    const bannerDate = document.getElementById("bannerDate");
-    const bannerTime = document.getElementById("bannerTime");
-    const bannerLocation = document.getElementById("bannerLocation");
-    const bannerExtra = document.getElementById("bannerExtra");
-    const formatLabel = document.getElementById("formatLabel");
-    const separator = document.querySelector(".separator");
-    const overlay = document.getElementById("bannerOverlay");
-
-    const textControls = {
-        title: {
-            element: bannerTitle,
-            fontInput: document.getElementById("titleFontInput"),
-            horizontalInput: document.getElementById("titleHorizontalInput"),
-            horizontalValue: document.getElementById("titleHorizontalValue"),
-            verticalInput: document.getElementById("titleVerticalInput"),
-            verticalValue: document.getElementById("titleVerticalValue")
-        },
-        subtitle: {
-            element: bannerSubtitle,
-            fontInput: document.getElementById("subtitleFontInput"),
-            horizontalInput: document.getElementById("subtitleHorizontalInput"),
-            horizontalValue: document.getElementById("subtitleHorizontalValue"),
-            verticalInput: document.getElementById("subtitleVerticalInput"),
-            verticalValue: document.getElementById("subtitleVerticalValue")
-        },
-        date: {
-            element: bannerDate,
-            fontInput: document.getElementById("dateFontInput"),
-            horizontalInput: document.getElementById("dateHorizontalInput"),
-            horizontalValue: document.getElementById("dateHorizontalValue"),
-            verticalInput: document.getElementById("dateVerticalInput"),
-            verticalValue: document.getElementById("dateVerticalValue")
-        },
-        time: {
-            element: bannerTime,
-            fontInput: document.getElementById("timeFontInput"),
-            horizontalInput: document.getElementById("timeHorizontalInput"),
-            horizontalValue: document.getElementById("timeHorizontalValue"),
-            verticalInput: document.getElementById("timeVerticalInput"),
-            verticalValue: document.getElementById("timeVerticalValue")
-        },
-        location: {
-            element: bannerLocation,
-            fontInput: document.getElementById("locationFontInput"),
-            horizontalInput: document.getElementById("locationHorizontalInput"),
-            horizontalValue: document.getElementById("locationHorizontalValue"),
-            verticalInput: document.getElementById("locationVerticalInput"),
-            verticalValue: document.getElementById("locationVerticalValue")
-        },
-        extra: {
-            element: bannerExtra,
-            fontInput: document.getElementById("extraFontInput"),
-            horizontalInput: document.getElementById("extraHorizontalInput"),
-            horizontalValue: document.getElementById("extraHorizontalValue"),
-            verticalInput: document.getElementById("extraVerticalInput"),
-            verticalValue: document.getElementById("extraVerticalValue")
-        }
-    };
-
-    let templates = {};
-    let currentTemplate = null;
-
-    async function loadTemplates() {
-        try {
-            const response = await fetch("templates.json");
-            if (!response.ok) throw new Error("No se pudo cargar templates.json");
-
-            templates = await response.json();
-            templateSelect.innerHTML = "";
-
-            Object.keys(templates).forEach((templateId) => {
-                const option = document.createElement("option");
-                option.value = templateId;
-                option.textContent = templates[templateId].name;
-                templateSelect.appendChild(option);
-            });
-
-            const firstTemplate = Object.keys(templates)[0];
-
-            if (firstTemplate) {
-                templateSelect.value = firstTemplate;
-                currentTemplate = templates[firstTemplate];
-                applyTemplate();
-            }
-        } catch (error) {
-            console.error(error);
-            templateSelect.innerHTML = `<option value="">Error al cargar plantillas</option>`;
-        }
-    }
-
-    function applyTemplate() {
-        if (!currentTemplate) return;
-
-        const template = currentTemplate;
-
-        banner.classList.remove(
-            "template-worship",
-            "template-elegante",
-            "template-minimalista"
-        );
-
-        if (templateSelect.value) {
-            banner.classList.add(`template-${templateSelect.value}`);
-        }
-
-        if (template.background) {
-            bannerBackground.style.backgroundImage = template.background;
-        }
-
-        bannerBackground.style.backgroundPosition =
-            template.backgroundPosition || "center center";
-
-        if (template.textColor) {
-            banner.style.color = template.textColor;
-        }
-
-        if (template.overlay) {
-            overlay.style.background = template.overlay;
-        }
-
-        if (template.title) {
-            if (template.title.fontSize) bannerTitle.style.fontSize = template.title.fontSize;
-            if (template.title.fontWeight) bannerTitle.style.fontWeight = template.title.fontWeight;
-            if (template.title.letterSpacing) bannerTitle.style.letterSpacing = template.title.letterSpacing;
-            if (template.title.textTransform) bannerTitle.style.textTransform = template.title.textTransform;
-        }
-
-        if (template.subtitle) {
-            if (template.subtitle.fontSize) bannerSubtitle.style.fontSize = template.subtitle.fontSize;
-            if (template.subtitle.fontWeight) bannerSubtitle.style.fontWeight = template.subtitle.fontWeight;
-        }
-
-        updateBanner();
-    }
-
-    function updateBanner() {
-        bannerTitle.textContent = titleInput.value.trim() || "Título del evento";
-        bannerSubtitle.textContent = subtitleInput.value.trim() || "Subtítulo del evento";
-        bannerDate.textContent = dateInput.value.trim() || "Fecha";
-        bannerTime.textContent = timeInput.value.trim() || "Hora";
-        bannerLocation.textContent = locationInput.value.trim() || "Lugar";
-        bannerExtra.textContent = extraInput.value.trim() || "Texto adicional";
-
-        bannerSubtitle.style.display = subtitleInput.value.trim() ? "block" : "none";
-        bannerDate.style.display = dateInput.value.trim() ? "inline" : "none";
-        bannerTime.style.display = timeInput.value.trim() ? "inline" : "none";
-
-        if (separator) {
-            separator.style.display =
-                dateInput.value.trim() && timeInput.value.trim()
-                    ? "inline"
-                    : "none";
-        }
-
-        bannerLocation.style.display = locationInput.value.trim() ? "block" : "none";
-        bannerExtra.style.display = extraInput.value.trim() ? "block" : "none";
-
-        updateFormat();
-    }
-
-    function updateFormat() {
-        const format = formatSelect.value;
-
-        banner.classList.remove("square", "story", "facebook");
-        banner.classList.add(format);
-
-        if (format === "square") formatLabel.textContent = "1080 × 1080";
-        if (format === "story") formatLabel.textContent = "1080 × 1920";
-        if (format === "facebook") formatLabel.textContent = "1200 × 628";
-
-        bannerBackground.style.backgroundSize = "cover";
-    }
-
-    imageInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        if (!file.type.startsWith("image/")) {
-            alert("Por favor selecciona una imagen válida.");
-            imageInput.value = "";
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            bannerBackground.style.backgroundImage = `url("${e.target.result}")`;
-            bannerBackground.style.backgroundSize = "cover";
-            bannerBackground.style.backgroundRepeat = "no-repeat";
-            bannerBackground.style.backgroundPosition = "center center";
-        };
-
-        reader.readAsDataURL(file);
-    });
-
-    logoInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        if (!file.type.startsWith("image/")) {
-            alert("Por favor selecciona una imagen válida para el logo.");
-            logoInput.value = "";
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            bannerLogo.src = e.target.result;
-            bannerLogo.style.display = "block";
-            updateLogoControls();
-        };
-
-        reader.readAsDataURL(file);
-    });
-
-    function updateLogoControls() {
-        const size = Number(logoSizeInput.value);
-        const horizontal = Number(logoHorizontalInput.value);
-        const vertical = Number(logoVerticalInput.value);
-
-        bannerLogo.style.width = `${size}%`;
-        bannerLogo.style.left = `calc(50% + ${horizontal}%)`;
-        bannerLogo.style.top = `calc(5% + ${vertical}%)`;
-        bannerLogo.style.right = "auto";
-        bannerLogo.style.bottom = "auto";
-        bannerLogo.style.transform = "translateX(-50%)";
-
-        logoSizeValue.textContent = `${size}%`;
-        logoHorizontalValue.textContent = horizontal;
-        logoVerticalValue.textContent = vertical;
-    }
-
-    function updateTextPosition(control) {
-        const horizontal = Number(control.horizontalInput.value);
-        const vertical = Number(control.verticalInput.value);
-
-        control.element.style.transform =
-            `translate(${horizontal}px, ${vertical}px)`;
-
-        control.horizontalValue.textContent = horizontal;
-        control.verticalValue.textContent = vertical;
-    }
-
-    function updateTextFont(control) {
-        if (!control.fontInput) return;
-        const font = control.fontInput.value;
-        control.element.style.fontFamily = `"${font}", sans-serif`;
-    }
-
-    Object.values(textControls).forEach((control) => {
-        if (control.fontInput) {
-            control.fontInput.addEventListener("change", () => updateTextFont(control));
-            updateTextFont(control);
-        }
-
-        control.horizontalInput.addEventListener("input", () => {
-            updateTextPosition(control);
-        });
-
-        control.verticalInput.addEventListener("input", () => {
-            updateTextPosition(control);
-        });
-    });
-
-    logoSizeInput.addEventListener("input", updateLogoControls);
-    logoHorizontalInput.addEventListener("input", updateLogoControls);
-    logoVerticalInput.addEventListener("input", updateLogoControls);
-
-    [
-        titleInput,
-        subtitleInput,
-        dateInput,
-        timeInput,
-        locationInput,
-        extraInput
-    ].forEach((input) => {
-        input.addEventListener("input", updateBanner);
-    });
-
-    templateSelect.addEventListener("change", () => {
-        currentTemplate = templates[templateSelect.value];
-        applyTemplate();
-    });
-
-    formatSelect.addEventListener("change", updateFormat);
-
-    downloadButton.addEventListener("click", async () => {
-        if (typeof html2canvas === "undefined") {
-            alert("No se pudo cargar el sistema de generación de imágenes.");
-            return;
-        }
-
-        let targetWidth;
-        let targetHeight;
-
-        if (formatSelect.value === "square") {
-            targetWidth = 1080;
-            targetHeight = 1080;
-        }
-
-        if (formatSelect.value === "story") {
-            targetWidth = 1080;
-            targetHeight = 1920;
-        }
-
-        if (formatSelect.value === "facebook") {
-            targetWidth = 1200;
-            targetHeight = 628;
-        }
-
-        const previewWidth = banner.getBoundingClientRect().width;
-        const previewHeight = banner.getBoundingClientRect().height;
-
-        const scaleX = targetWidth / previewWidth;
-        const scaleY = targetHeight / previewHeight;
-        const safeScale = Math.min(Math.max(scaleX, scaleY), 3);
-
-        try {
-            const canvas = await html2canvas(banner, {
-                scale: safeScale,
-                useCORS: true,
-                allowTaint: false,
-                backgroundColor: null,
-                imageTimeout: 15000
-            });
-
-            const finalCanvas = document.createElement("canvas");
-            finalCanvas.width = targetWidth;
-            finalCanvas.height = targetHeight;
-
-            const finalContext = finalCanvas.getContext("2d");
-
-            finalContext.drawImage(
-                canvas,
-                0,
-                0,
-                targetWidth,
-                targetHeight
-            );
-
-            let fileName = titleInput.value.trim();
-
-            fileName = fileName
-                .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g, "")
-                .replace(/\s+/g, "-");
-
-            if (!fileName) fileName = "banner-filadelfia";
-
-            const link = document.createElement("a");
-            link.download = `${fileName}.png`;
-            link.href = finalCanvas.toDataURL("image/png");
-            link.click();
-
-        } catch (error) {
-            console.error(error);
-            alert("No fue posible generar el banner. Intenta nuevamente.");
-        }
-    });
-
-    updateLogoControls();
-
-    Object.values(textControls).forEach((control) => {
-        updateTextPosition(control);
-        updateTextFont(control);
-    });
-
-    updateBanner();
-    loadTemplates();
-});
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Filadelfia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+    <div>
+        <h1>Banner Filadelfia</h1>
+        <p>Generador de banners</p>
+    </div>
+</header>
+
+<main class="app-container">
+
+<section class="panel controls-panel">
+    <h2>Crear banner</h2>
+
+    <div class="form-group">
+        <label for="templateSelect">Plantilla</label>
+        <select id="templateSelect">
+            <option value="">Cargando plantillas...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="formatSelect">Formato</label>
+        <select id="formatSelect">
+            <option value="square">Instagram / WhatsApp — 1080 × 1080</option>
+            <option value="story">Historia — 1080 × 1920</option>
+            <option value="facebook">Facebook — 1200 × 628</option>
+        </select>
+    </div>
+
+    <!-- TÍTULO -->
+    <div class="form-group">
+        <label for="titleInput">Título</label>
+        <input type="text" id="titleInput" placeholder="Ej: Noche de Adoración">
+        <div class="font-control">
+            <label for="titleFontInput">Tipo de letra</label>
+            <select id="titleFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="titleHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="titleHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="titleHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="titleVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="titleVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="titleVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <!-- SUBTÍTULO -->
+    <div class="form-group">
+        <label for="subtitleInput">Subtítulo</label>
+        <textarea id="subtitleInput" rows="3" placeholder="Ej: Una noche para encontrarnos con Dios"></textarea>
+        <div class="font-control">
+            <label for="subtitleFontInput">Tipo de letra</label>
+            <select id="subtitleFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="subtitleHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="subtitleHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="subtitleHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="subtitleVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="subtitleVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="subtitleVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <!-- FECHA -->
+    <div class="form-group">
+        <label for="dateInput">Fecha</label>
+        <input type="text" id="dateInput" placeholder="Viernes 20 de septiembre">
+        <div class="font-control">
+            <label for="dateFontInput">Tipo de letra</label>
+            <select id="dateFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="dateHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="dateHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="dateHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="dateVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="dateVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="dateVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <!-- HORA -->
+    <div class="form-group">
+        <label for="timeInput">Hora</label>
+        <input type="text" id="timeInput" placeholder="7:00 p. m.">
+        <div class="font-control">
+            <label for="timeFontInput">Tipo de letra</label>
+            <select id="timeFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="timeHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="timeHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="timeHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="timeVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="timeVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="timeVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <!-- LUGAR -->
+    <div class="form-group">
+        <label for="locationInput">Lugar</label>
+        <input type="text" id="locationInput" placeholder="Iglesia Filadelfia">
+        <div class="font-control">
+            <label for="locationFontInput">Tipo de letra</label>
+            <select id="locationFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="locationHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="locationHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="locationHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="locationVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="locationVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="locationVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <!-- TEXTO ADICIONAL -->
+    <div class="form-group">
+        <label for="extraInput">Texto adicional</label>
+        <input type="text" id="extraInput" placeholder="Entrada libre">
+        <div class="font-control">
+            <label for="extraFontInput">Tipo de letra</label>
+            <select id="extraFontInput" class="font-select">
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Oswald">Oswald</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Merriweather">Merriweather</option>
+        </select>
+        </div>
+
+        <div class="text-position-control">
+            <label for="extraHorizontalInput">Posición horizontal</label>
+            <div class="position-slider">
+                <span>←</span>
+                <input type="range" id="extraHorizontalInput" min="-150" max="150" value="0" step="1">
+                <span>→</span>
+            </div>
+            <div class="position-value"><span id="extraHorizontalValue">0</span> px</div>
+        </div>
+
+        <div class="text-position-control">
+            <label for="extraVerticalInput">Posición vertical</label>
+            <div class="position-slider">
+                <span>↑</span>
+                <input type="range" id="extraVerticalInput" min="-150" max="150" value="0" step="1">
+                <span>↓</span>
+            </div>
+            <div class="position-value"><span id="extraVerticalValue">0</span> px</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="imageInput">Imagen de fondo</label>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <div class="form-group">
+        <label for="logoInput">Logo</label>
+        <input type="file" id="logoInput" accept="image/*">
+    </div>
+
+    <div class="form-group">
+        <label for="logoSizeInput">Tamaño del logo</label>
+        <div class="range-control">
+            <input type="range" id="logoSizeInput" min="5" max="30" value="15" step="1">
+            <span id="logoSizeValue">15%</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="logoHorizontalInput">Posición horizontal del logo</label>
+        <div class="position-slider">
+            <span>←</span>
+            <input type="range" id="logoHorizontalInput" min="-45" max="45" value="0" step="1">
+            <span>→</span>
+        </div>
+        <div class="position-value"><span id="logoHorizontalValue">0</span> %</div>
+    </div>
+
+    <div class="form-group">
+        <label for="logoVerticalInput">Posición vertical del logo</label>
+        <div class="position-slider">
+            <span>↑</span>
+            <input type="range" id="logoVerticalInput" min="-45" max="45" value="0" step="1">
+            <span>↓</span>
+        </div>
+        <div class="position-value"><span id="logoVerticalValue">0</span> %</div>
+    </div>
+
+    <button id="downloadButton" class="download-button">⬇ Generar PNG</button>
+</section>
+
+<section class="panel preview-panel">
+    <div class="preview-header">
+        <h2>Vista previa</h2>
+        <span id="formatLabel">1080 × 1080</span>
+    </div>
+
+    <div class="preview-area">
+        <div id="banner" class="banner square">
+
+            <div id="bannerBackground" class="banner-background"></div>
+            <div id="bannerOverlay" class="banner-overlay"></div>
+
+            <div class="banner-content">
+                <img id="bannerLogo" class="banner-logo" alt="Logo">
+
+                <h1 id="bannerTitle" class="banner-title">Título del evento</h1>
+
+                <p id="bannerSubtitle" class="banner-subtitle">
+                    Subtítulo del evento
+                </p>
+
+                <div id="bannerInfo" class="banner-info">
+                    <span id="bannerDate">Fecha</span>
+                    <span class="separator">•</span>
+                    <span id="bannerTime">Hora</span>
+                </div>
+
+                <div id="bannerLocation" class="banner-location">Lugar</div>
+                <div id="bannerExtra" class="banner-extra">Texto adicional</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Banner Filadelfia · Generador de diseños</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
