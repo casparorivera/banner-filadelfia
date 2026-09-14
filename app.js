@@ -91,13 +91,26 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch("templates.json");
             if (!response.ok) throw new Error("No se pudo cargar templates.json");
 
-            templates = await response.json();
+            const data = await response.json();
+
+            // templates.json puede venir como arreglo (formato original)
+            // o como objeto. Aceptamos ambos para no romper las plantillas.
+            if (Array.isArray(data)) {
+                templates = {};
+                data.forEach((template, index) => {
+                    const templateId = template.id || template.name || `template-${index}`;
+                    templates[templateId] = template;
+                });
+            } else {
+                templates = data || {};
+            }
+
             templateSelect.innerHTML = "";
 
             Object.keys(templates).forEach((templateId) => {
                 const option = document.createElement("option");
                 option.value = templateId;
-                option.textContent = templates[templateId].name;
+                option.textContent = templates[templateId].name || templateId;
                 templateSelect.appendChild(option);
             });
 
