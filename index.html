@@ -1,52 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Banner Filadelfia</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 
     <!-- Librería para convertir el banner en PNG -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
-
 
 <body>
 
-
 <header class="topbar">
-
     <div>
-
         <h1>Banner Filadelfia</h1>
-
         <p>Generador de banners</p>
-
     </div>
-
 </header>
 
 
 <main class="app-container">
 
-
-    <!-- =====================================================
+    <!-- =========================
          PANEL DE CONFIGURACIÓN
-         ===================================================== -->
+    ========================== -->
 
     <section class="panel controls-panel">
 
@@ -62,11 +42,9 @@
             </label>
 
             <select id="templateSelect">
-
                 <option value="">
                     Cargando plantillas...
                 </option>
-
             </select>
 
         </div>
@@ -201,7 +179,7 @@
         </div>
 
 
-        <!-- IMAGEN -->
+        <!-- IMAGEN DE FONDO -->
 
         <div class="form-group">
 
@@ -218,9 +196,7 @@
         </div>
 
 
-        <!-- =================================================
-             LOGO
-             ================================================= -->
+        <!-- LOGO -->
 
         <div class="form-group">
 
@@ -237,21 +213,15 @@
         </div>
 
 
-        <!-- =================================================
-             TAMAÑO DEL LOGO
-             ================================================= -->
+        <!-- TAMAÑO DEL LOGO -->
 
-        <div
-            class="form-group logo-size-group"
-            id="logoSizeGroup"
-        >
+        <div class="form-group" id="logo-size-group">
 
             <label for="logoSizeInput">
                 Tamaño del logo
             </label>
 
-
-            <div class="range-container">
+            <div class="range-control">
 
                 <input
                     type="range"
@@ -262,12 +232,62 @@
                     step="1"
                 >
 
-
                 <span id="logoSizeValue">
                     15%
                 </span>
 
             </div>
+
+        </div>
+
+
+        <!-- POSICIÓN DEL LOGO -->
+
+        <div class="form-group" id="logo-position-group">
+
+            <label for="logoPositionInput">
+                Posición del logo
+            </label>
+
+            <select id="logoPositionInput">
+
+                <option value="top-left">
+                    ↖ Arriba izquierda
+                </option>
+
+                <option value="top-center" selected>
+                    ↑ Arriba centro
+                </option>
+
+                <option value="top-right">
+                    ↗ Arriba derecha
+                </option>
+
+                <option value="center-left">
+                    ← Centro izquierda
+                </option>
+
+                <option value="center">
+                    ● Centro
+                </option>
+
+                <option value="center-right">
+                    → Centro derecha
+                </option>
+
+                <option value="bottom-left">
+                    ↙ Abajo izquierda
+                </option>
+
+                <option value="bottom-center">
+                    ↓ Abajo centro
+                </option>
+
+                <option value="bottom-right">
+                    ↘ Abajo derecha
+                </option>
+
+            </select>
 
         </div>
 
@@ -281,17 +301,14 @@
             ⬇ Generar PNG
         </button>
 
-
     </section>
 
 
-
-    <!-- =====================================================
+    <!-- =========================
          PANEL DE VISTA PREVIA
-         ===================================================== -->
+    ========================== -->
 
     <section class="panel preview-panel">
-
 
         <div class="preview-header">
 
@@ -306,15 +323,12 @@
         </div>
 
 
-
         <div class="preview-area">
-
 
             <div
                 id="banner"
                 class="banner square"
             >
-
 
                 <!-- FONDO -->
 
@@ -431,5 +445,4 @@
 <script src="app.js"></script>
 
 </body>
-
 </html>
