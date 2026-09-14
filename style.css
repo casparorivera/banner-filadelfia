@@ -1,6 +1,5 @@
 /* =========================================================
    BANNER FILADELFIA
-   Generador de banners
    ========================================================= */
 
 * {
@@ -14,7 +13,6 @@
 
     --bg: #f4f5f7;
     --panel: #ffffff;
-
     --border: #e2e5e9;
 
     --text: #202124;
@@ -56,7 +54,7 @@ body {
 
 
 /* =========================================================
-   BARRA SUPERIOR
+   CABECERA
    ========================================================= */
 
 .topbar {
@@ -102,7 +100,7 @@ body {
 
 
 /* =========================================================
-   CONTENEDOR PRINCIPAL
+   CONTENEDOR
    ========================================================= */
 
 .app-container {
@@ -284,7 +282,85 @@ body {
 
 
 /* =========================================================
-   BOTÓN GENERAR
+   CONTROL DEL TAMAÑO DEL LOGO
+   ========================================================= */
+
+.logo-size-group {
+
+    padding:
+        12px;
+
+    background:
+        #f8f9fa;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius:
+        10px;
+
+}
+
+
+.range-container {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+}
+
+
+#logoSizeInput {
+
+    flex:
+        1;
+
+    width:
+        auto;
+
+    padding:
+        0;
+
+    border:
+        none;
+
+    box-shadow:
+        none;
+
+    cursor:
+        pointer;
+
+}
+
+
+#logoSizeValue {
+
+    min-width:
+        42px;
+
+    text-align:
+        right;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    color:
+        #374151;
+
+}
+
+
+/* =========================================================
+   BOTÓN
    ========================================================= */
 
 .download-button {
@@ -527,7 +603,7 @@ body {
 
 
 /* =========================================================
-   FONDO DE LA FOTOGRAFÍA
+   FONDO
    ========================================================= */
 
 .banner-background {
@@ -559,15 +635,6 @@ body {
 
     background-repeat:
         no-repeat;
-
-    /*
-     * La fotografía siempre llenará completamente
-     * el banner sin deformarse.
-     */
-
-    transition:
-        background-image 0.25s ease,
-        background-position 0.25s ease;
 
 }
 
@@ -657,11 +724,14 @@ body {
     left:
         35px;
 
-    max-width:
-        130px;
+    width:
+        15%;
 
-    max-height:
-        75px;
+    height:
+        auto;
+
+    max-width:
+        30%;
 
     object-fit:
         contain;
@@ -811,7 +881,7 @@ body {
 
 
 /* =========================================================
-   PLANTILLA WORSHIP MODERNO
+   WORSHIP MODERNO
    ========================================================= */
 
 .banner.template-worship {
@@ -983,7 +1053,7 @@ body {
 
 
 /* =========================================================
-   PLANTILLA ELEGANTE
+   ELEGANTE
    ========================================================= */
 
 .banner.template-elegante {
@@ -1014,7 +1084,7 @@ body {
 
 
 /* =========================================================
-   PLANTILLA MINIMALISTA
+   MINIMALISTA
    ========================================================= */
 
 .banner.template-minimalista {
@@ -1045,7 +1115,7 @@ body {
 
 
 /* =========================================================
-   FORMATO STORY
+   STORY
    ========================================================= */
 
 .banner.story .banner-content {
@@ -1073,7 +1143,7 @@ body {
 
 
 /* =========================================================
-   FORMATO FACEBOOK
+   FACEBOOK
    ========================================================= */
 
 .banner.facebook .banner-content {
@@ -1101,7 +1171,7 @@ body {
 
 
 /* =========================================================
-   PIE DE PÁGINA
+   FOOTER
    ========================================================= */
 
 footer {
