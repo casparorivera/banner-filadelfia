@@ -41,6 +41,24 @@ body {
     border-radius: 14px;
     box-shadow: 0 4px 20px rgba(0,0,0,.08);
     padding: 22px;
+    max-height: calc(100vh - 105px);
+    overflow-y: auto;
+    position: sticky;
+    top: 20px;
+    align-self: start;
+}
+
+.panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.panel::-webkit-scrollbar-thumb {
+    background: #c7cbd1;
+    border-radius: 8px;
+}
+
+.panel::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .panel h2 {
@@ -367,6 +385,12 @@ footer {
 }
 
 @media (max-width: 900px) {
+    .panel {
+        max-height: none;
+        overflow-y: visible;
+        position: static;
+    }
+
     .app-container {
         grid-template-columns: 1fr;
     }
