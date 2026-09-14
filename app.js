@@ -5,6 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
     /* =====================================================
        ELEMENTOS DEL FORMULARIO
        ===================================================== */
@@ -39,6 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoInput =
         document.getElementById("logoInput");
 
+    const logoSizeInput =
+        document.getElementById("logoSizeInput");
+
+    const logoSizeValue =
+        document.getElementById("logoSizeValue");
+
     const downloadButton =
         document.getElementById("downloadButton");
 
@@ -52,6 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const bannerBackground =
         document.getElementById("bannerBackground");
+
+    const bannerOverlay =
+        document.getElementById("bannerOverlay");
 
     const bannerLogo =
         document.getElementById("bannerLogo");
@@ -80,15 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const separator =
         document.querySelector(".separator");
 
-    const overlay =
-        document.getElementById("bannerOverlay");
-
 
     /* =====================================================
        VARIABLES
        ===================================================== */
 
     let templates = {};
+
     let currentTemplate = null;
 
 
@@ -103,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response =
                 await fetch("templates.json");
 
+
             if (!response.ok) {
 
                 throw new Error(
@@ -111,10 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
+
             templates =
                 await response.json();
 
-            templateSelect.innerHTML = "";
+
+            templateSelect.innerHTML =
+                "";
 
 
             Object.keys(templates).forEach(
@@ -123,14 +135,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     const template =
                         templates[templateId];
 
+
                     const option =
-                        document.createElement("option");
+                        document.createElement(
+                            "option"
+                        );
+
 
                     option.value =
                         templateId;
 
+
                     option.textContent =
                         template.name;
+
 
                     templateSelect.appendChild(
                         option
@@ -149,16 +167,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 templateSelect.value =
                     firstTemplate;
 
+
                 currentTemplate =
                     templates[firstTemplate];
+
 
                 applyTemplate();
 
             }
 
+
         } catch (error) {
 
             console.error(error);
+
 
             templateSelect.innerHTML = `
                 <option value="">
@@ -186,9 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentTemplate;
 
 
-        /* -------------------------------------------------
-           CLASE DE PLANTILLA
-           ------------------------------------------------- */
+        /* CLASE DE PLANTILLA */
 
         banner.classList.remove(
             "template-worship",
@@ -206,9 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           FONDO DE LA PLANTILLA
-           ------------------------------------------------- */
+        /* FONDO */
 
         if (template.background) {
 
@@ -218,18 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           POSICIÓN DEL FONDO
-           ------------------------------------------------- */
+        /* POSICIÓN DEL FONDO */
 
         bannerBackground.style.backgroundPosition =
             template.backgroundPosition ||
             "center center";
 
 
-        /* -------------------------------------------------
-           COLOR DEL TEXTO
-           ------------------------------------------------- */
+        /* COLOR DEL TEXTO */
 
         if (template.textColor) {
 
@@ -239,21 +253,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           OVERLAY
-           ------------------------------------------------- */
+        /* OVERLAY */
 
         if (template.overlay) {
 
-            overlay.style.background =
+            bannerOverlay.style.background =
                 template.overlay;
 
         }
 
 
-        /* -------------------------------------------------
-           TÍTULO
-           ------------------------------------------------- */
+        /* TÍTULO */
 
         if (template.title) {
 
@@ -264,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
+
             if (template.title.fontWeight) {
 
                 bannerTitle.style.fontWeight =
@@ -271,12 +282,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
+
             if (template.title.letterSpacing) {
 
                 bannerTitle.style.letterSpacing =
                     template.title.letterSpacing;
 
             }
+
 
             if (template.title.textTransform) {
 
@@ -288,9 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           SUBTÍTULO
-           ------------------------------------------------- */
+        /* SUBTÍTULO */
 
         if (template.subtitle) {
 
@@ -300,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     template.subtitle.fontSize;
 
             }
+
 
             if (template.subtitle.fontWeight) {
 
@@ -322,63 +334,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateBanner() {
 
-        /* -------------------------------------------------
-           TÍTULO
-           ------------------------------------------------- */
+
+        /* TÍTULO */
 
         bannerTitle.textContent =
             titleInput.value.trim() ||
             "Título del evento";
 
 
-        /* -------------------------------------------------
-           SUBTÍTULO
-           ------------------------------------------------- */
+        /* SUBTÍTULO */
 
         bannerSubtitle.textContent =
             subtitleInput.value.trim() ||
             "Subtítulo del evento";
 
 
-        /* -------------------------------------------------
-           FECHA
-           ------------------------------------------------- */
+        /* FECHA */
 
         bannerDate.textContent =
             dateInput.value.trim() ||
             "Fecha";
 
 
-        /* -------------------------------------------------
-           HORA
-           ------------------------------------------------- */
+        /* HORA */
 
         bannerTime.textContent =
             timeInput.value.trim() ||
             "Hora";
 
 
-        /* -------------------------------------------------
-           LUGAR
-           ------------------------------------------------- */
+        /* LUGAR */
 
         bannerLocation.textContent =
             locationInput.value.trim() ||
             "Lugar";
 
 
-        /* -------------------------------------------------
-           TEXTO EXTRA
-           ------------------------------------------------- */
+        /* TEXTO EXTRA */
 
         bannerExtra.textContent =
             extraInput.value.trim() ||
             "Texto adicional";
 
 
-        /* -------------------------------------------------
-           MOSTRAR / OCULTAR SUBTÍTULO
-           ------------------------------------------------- */
+        /* VISIBILIDAD DEL SUBTÍTULO */
 
         bannerSubtitle.style.display =
             subtitleInput.value.trim()
@@ -386,9 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* -------------------------------------------------
-           MOSTRAR / OCULTAR FECHA
-           ------------------------------------------------- */
+        /* VISIBILIDAD DE FECHA */
 
         bannerDate.style.display =
             dateInput.value.trim()
@@ -396,9 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* -------------------------------------------------
-           MOSTRAR / OCULTAR HORA
-           ------------------------------------------------- */
+        /* VISIBILIDAD DE HORA */
 
         bannerTime.style.display =
             timeInput.value.trim()
@@ -406,9 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* -------------------------------------------------
-           SEPARADOR
-           ------------------------------------------------- */
+        /* SEPARADOR */
 
         if (separator) {
 
@@ -421,9 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           MOSTRAR / OCULTAR LUGAR
-           ------------------------------------------------- */
+        /* VISIBILIDAD DEL LUGAR */
 
         bannerLocation.style.display =
             locationInput.value.trim()
@@ -431,9 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* -------------------------------------------------
-           MOSTRAR / OCULTAR TEXTO EXTRA
-           ------------------------------------------------- */
+        /* VISIBILIDAD DEL TEXTO EXTRA */
 
         bannerExtra.style.display =
             extraInput.value.trim()
@@ -447,7 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       CAMBIAR FORMATO
+       ACTUALIZAR FORMATO
        ===================================================== */
 
     function updateFormat() {
@@ -467,10 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
             format
         );
 
-
-        /* -------------------------------------------------
-           ETIQUETA
-           ------------------------------------------------- */
 
         if (format === "square") {
 
@@ -496,16 +481,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* -------------------------------------------------
-           Mantener posición del fondo
-           ------------------------------------------------- */
+        bannerBackground.style.backgroundSize =
+            "cover";
 
-        if (bannerBackground) {
+    }
 
-            bannerBackground.style.backgroundSize =
-                "cover";
 
-        }
+    /* =====================================================
+       ACTUALIZAR TAMAÑO DEL LOGO
+       ===================================================== */
+
+    function updateLogoSize() {
+
+        const size =
+            Number(
+                logoSizeInput.value
+            );
+
+
+        /*
+         * El tamaño se calcula como porcentaje
+         * del ancho del banner.
+         */
+
+        bannerLogo.style.width =
+            `${size}%`;
+
+
+        bannerLogo.style.height =
+            "auto";
+
+
+        logoSizeValue.textContent =
+            `${size}%`;
 
     }
 
@@ -521,20 +529,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const file =
                 event.target.files[0];
 
+
             if (!file) {
                 return;
             }
 
 
-            /* Comprobar que realmente sea una imagen */
-
-            if (!file.type.startsWith("image/")) {
+            if (
+                !file.type.startsWith("image/")
+            ) {
 
                 alert(
                     "Por favor selecciona una imagen válida."
                 );
 
-                imageInput.value = "";
+
+                imageInput.value =
+                    "";
+
 
                 return;
 
@@ -548,19 +560,17 @@ document.addEventListener("DOMContentLoaded", () => {
             reader.onload =
                 (e) => {
 
-                    /*
-                     * La fotografía ocupa todo el banner.
-                     * background-size: cover evita deformaciones.
-                     */
-
                     bannerBackground.style.backgroundImage =
                         `url("${e.target.result}")`;
+
 
                     bannerBackground.style.backgroundSize =
                         "cover";
 
+
                     bannerBackground.style.backgroundRepeat =
                         "no-repeat";
+
 
                     bannerBackground.style.backgroundPosition =
                         "center center";
@@ -585,18 +595,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const file =
                 event.target.files[0];
 
+
             if (!file) {
                 return;
             }
 
 
-            if (!file.type.startsWith("image/")) {
+            if (
+                !file.type.startsWith("image/")
+            ) {
 
                 alert(
                     "Por favor selecciona una imagen válida para el logo."
                 );
 
-                logoInput.value = "";
+
+                logoInput.value =
+                    "";
+
 
                 return;
 
@@ -613,8 +629,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     bannerLogo.src =
                         e.target.result;
 
+
                     bannerLogo.style.display =
                         "block";
+
+
+                    updateLogoSize();
 
                 };
 
@@ -622,6 +642,16 @@ document.addEventListener("DOMContentLoaded", () => {
             reader.readAsDataURL(file);
 
         }
+    );
+
+
+    /* =====================================================
+       CONTROL DEL TAMAÑO DEL LOGO
+       ===================================================== */
+
+    logoSizeInput.addEventListener(
+        "input",
+        updateLogoSize
     );
 
 
@@ -664,8 +694,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const selected =
                 templateSelect.value;
 
+
             currentTemplate =
                 templates[selected];
+
 
             applyTemplate();
 
@@ -691,6 +723,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "click",
         async () => {
 
+
             if (
                 typeof html2canvas ===
                 "undefined"
@@ -705,15 +738,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            /*
-             * El banner que vemos en pantalla tiene un tamaño
-             * reducido para que quepa cómodamente en el navegador.
-             *
-             * Aquí calculamos cuánto debemos ampliar la captura
-             * para obtener exactamente el tamaño final.
-             */
-
             let targetWidth;
+
             let targetHeight;
 
 
@@ -723,6 +749,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 targetWidth = 1080;
+
                 targetHeight = 1080;
 
             }
@@ -734,6 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 targetWidth = 1080;
+
                 targetHeight = 1920;
 
             }
@@ -745,40 +773,31 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
 
                 targetWidth = 1200;
+
                 targetHeight = 628;
 
             }
 
 
-            /*
-             * Medidas actuales de la vista previa.
-             */
-
             const previewWidth =
-                banner.getBoundingClientRect().width;
+                banner.getBoundingClientRect()
+                    .width;
+
 
             const previewHeight =
-                banner.getBoundingClientRect().height;
+                banner.getBoundingClientRect()
+                    .height;
 
-
-            /*
-             * Escala necesaria para obtener el tamaño final.
-             */
 
             const scaleX =
                 targetWidth /
                 previewWidth;
 
+
             const scaleY =
                 targetHeight /
                 previewHeight;
 
-
-            /*
-             * Usamos la escala horizontal.
-             * Los formatos mantienen exactamente la misma
-             * proporción entre vista previa y archivo final.
-             */
 
             const exportScale =
                 Math.max(
@@ -786,11 +805,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     scaleY
                 );
 
-
-            /*
-             * Evitar problemas de memoria en dispositivos
-             * que tengan poca capacidad.
-             */
 
             const safeScale =
                 Math.min(
@@ -805,6 +819,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     await html2canvas(
                         banner,
                         {
+
                             scale:
                                 safeScale,
 
@@ -819,14 +834,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             imageTimeout:
                                 15000
+
                         }
                     );
 
-
-                /*
-                 * Crear canvas final exactamente
-                 * en las dimensiones solicitadas.
-                 */
 
                 const finalCanvas =
                     document.createElement(
@@ -836,6 +847,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 finalCanvas.width =
                     targetWidth;
+
 
                 finalCanvas.height =
                     targetHeight;
@@ -847,11 +859,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
-                /*
-                 * Dibujar la captura ampliada
-                 * en el tamaño definitivo.
-                 */
-
                 finalContext.drawImage(
                     canvas,
                     0,
@@ -860,10 +867,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     targetHeight
                 );
 
-
-                /*
-                 * Nombre del archivo
-                 */
 
                 let fileName =
                     titleInput.value.trim();
@@ -889,10 +892,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                /*
-                 * Descargar PNG
-                 */
-
                 const link =
                     document.createElement(
                         "a"
@@ -916,6 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.error(error);
 
+
                 alert(
                     "No fue posible generar el banner. Intenta nuevamente."
                 );
@@ -931,6 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     updateBanner();
+
+    updateLogoSize();
 
     loadTemplates();
 
