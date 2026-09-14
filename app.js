@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageInput = document.getElementById("imageInput");
     const logoInput = document.getElementById("logoInput");
     const downloadButton = document.getElementById("downloadButton");
+    const sendToAdminButton = document.getElementById("sendToAdminButton");
 
     const logoSizeInput = document.getElementById("logoSizeInput");
     const logoSizeValue = document.getElementById("logoSizeValue");
@@ -324,10 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     formatSelect.addEventListener("change", updateFormat);
 
-    downloadButton.addEventListener("click", async () => {
+    async function generarCanvasFinal() {
         if (typeof html2canvas === "undefined") {
-            alert("No se pudo cargar el sistema de generación de imágenes.");
-            return;
+            throw new Error("No se pudo cargar el sistema de generación de imágenes.");
         }
 
         let targetWidth;
@@ -355,47 +355,96 @@ document.addEventListener("DOMContentLoaded", () => {
         const scaleY = targetHeight / previewHeight;
         const safeScale = Math.min(Math.max(scaleX, scaleY), 3);
 
+        const canvas = await html2canvas(banner, {
+            scale: safeScale,
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: null,
+            imageTimeout: 15000
+        });
+
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = targetWidth;
+        finalCanvas.height = targetHeight;
+
+        const finalContext = finalCanvas.getContext("2d");
+
+        finalContext.drawImage(
+            canvas,
+            0,
+            0,
+            targetWidth,
+            targetHeight
+        );
+
+        let fileName = titleInput.value.trim();
+
+        fileName = fileName
+            .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g, "")
+            .replace(/\s+/g, "-");
+
+        if (!fileName) fileName = "banner-filadelfia";
+
+        return { canvas: finalCanvas, fileName };
+    }
+
+    downloadButton.addEventListener("click", async () => {
         try {
-            const canvas = await html2canvas(banner, {
-                scale: safeScale,
-                useCORS: true,
-                allowTaint: false,
-                backgroundColor: null,
-                imageTimeout: 15000
-            });
-
-            const finalCanvas = document.createElement("canvas");
-            finalCanvas.width = targetWidth;
-            finalCanvas.height = targetHeight;
-
-            const finalContext = finalCanvas.getContext("2d");
-
-            finalContext.drawImage(
-                canvas,
-                0,
-                0,
-                targetWidth,
-                targetHeight
-            );
-
-            let fileName = titleInput.value.trim();
-
-            fileName = fileName
-                .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g, "")
-                .replace(/\s+/g, "-");
-
-            if (!fileName) fileName = "banner-filadelfia";
+            const { canvas, fileName } = await generarCanvasFinal();
 
             const link = document.createElement("a");
             link.download = `${fileName}.png`;
-            link.href = finalCanvas.toDataURL("image/png");
+            link.href = canvas.toDataURL("image/png");
             link.click();
 
         } catch (error) {
             console.error(error);
-            alert("No fue posible generar el banner. Intenta nuevamente.");
+            alert(error.message || "No fue posible generar el banner. Intenta nuevamente.");
         }
     });
+
+    if (sendToAdminButton) {
+        sendToAdminButton.addEventListener("click", async () => {
+            // Esta ventana solo puede "hablar" con el Panel de Administración
+            // si fue abierta desde allí (botón "Crear banner"), porque es lo
+            // que le da acceso a window.opener.
+            if (!window.opener || window.opener.closed) {
+                alert(
+                    "Este Generador no está conectado a ningún Panel de Administración.\n\n" +
+                    "Para conectarlo, ábrelo desde el botón \"Crear banner\" dentro del Panel de Administración de Anuncios."
+                );
+                return;
+            }
+
+            const textoOriginal = sendToAdminButton.textContent;
+
+            try {
+                sendToAdminButton.disabled = true;
+                sendToAdminButton.textContent = "Generando...";
+
+                const { canvas, fileName } = await generarCanvasFinal();
+                const dataUrl = canvas.toDataURL("image/png");
+
+                window.opener.postMessage({
+                    tipo: "banner-filadelfia",
+                    imagen: dataUrl,
+                    nombre: `${fileName}.png`
+                }, "*");
+
+                sendToAdminButton.textContent = "✅ Banner enviado al Panel";
+                setTimeout(() => {
+                    sendToAdminButton.textContent = textoOriginal;
+                    sendToAdminButton.disabled = false;
+                }, 2500);
+
+            } catch (error) {
+                console.error(error);
+                alert(error.message || "No fue posible generar el banner. Intenta nuevamente.");
+                sendToAdminButton.textContent = textoOriginal;
+                sendToAdminButton.disabled = false;
+            }
+        });
+    }
 
     updateLogoControls();
 
