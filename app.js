@@ -39,6 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoInput =
         document.getElementById("logoInput");
 
+    const downloadButton =
+        document.getElementById("downloadButton");
+
+
+    /* =====================================================
+       CONTROLES DEL LOGO
+       ===================================================== */
+
     const logoSizeInput =
         document.getElementById("logoSizeInput");
 
@@ -47,9 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const logoPositionInput =
         document.getElementById("logoPositionInput");
-
-    const downloadButton =
-        document.getElementById("downloadButton");
 
 
     /* =====================================================
@@ -360,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Texto adicional";
 
 
-        /* MOSTRAR / OCULTAR SUBTÍTULO */
+        /* SUBTÍTULO */
 
         bannerSubtitle.style.display =
             subtitleInput.value.trim()
@@ -368,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* MOSTRAR / OCULTAR FECHA */
+        /* FECHA */
 
         bannerDate.style.display =
             dateInput.value.trim()
@@ -376,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* MOSTRAR / OCULTAR HORA */
+        /* HORA */
 
         bannerTime.style.display =
             timeInput.value.trim()
@@ -397,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* MOSTRAR / OCULTAR LUGAR */
+        /* LUGAR */
 
         bannerLocation.style.display =
             locationInput.value.trim()
@@ -405,7 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* MOSTRAR / OCULTAR TEXTO EXTRA */
+        /* TEXTO EXTRA */
 
         bannerExtra.style.display =
             extraInput.value.trim()
@@ -590,22 +595,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateLogoSize() {
 
+        if (!logoSizeInput || !bannerLogo) {
+            return;
+        }
+
+
         const size =
             logoSizeInput.value;
+
 
         bannerLogo.style.width =
             `${size}%`;
 
-        logoSizeValue.textContent =
-            `${size}%`;
+
+        if (logoSizeValue) {
+
+            logoSizeValue.textContent =
+                `${size}%`;
+
+        }
 
     }
 
 
-    logoSizeInput.addEventListener(
-        "input",
-        updateLogoSize
-    );
+    if (logoSizeInput) {
+
+        logoSizeInput.addEventListener(
+            "input",
+            updateLogoSize
+        );
+
+    }
 
 
     /* =====================================================
@@ -614,11 +634,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateLogoPosition() {
 
+        if (!logoPositionInput || !banner) {
+            return;
+        }
+
+
         const position =
             logoPositionInput.value;
 
 
-        /* Remover posiciones anteriores */
+        /* Eliminar posiciones anteriores */
 
         banner.classList.remove(
             "logo-top-left",
@@ -633,19 +658,27 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /* Agregar nueva posición */
+        /* Agregar posición seleccionada */
 
-        banner.classList.add(
-            `logo-${position}`
-        );
+        if (position) {
+
+            banner.classList.add(
+                `logo-${position}`
+            );
+
+        }
 
     }
 
 
-    logoPositionInput.addEventListener(
-        "change",
-        updateLogoPosition
-    );
+    if (logoPositionInput) {
+
+        logoPositionInput.addEventListener(
+            "change",
+            updateLogoPosition
+        );
+
+    }
 
 
     /* =====================================================
@@ -724,6 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 return;
+
             }
 
 
@@ -767,6 +801,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const previewWidth =
                 banner.getBoundingClientRect().width;
 
+
             const previewHeight =
                 banner.getBoundingClientRect().height;
 
@@ -774,6 +809,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const scaleX =
                 targetWidth /
                 previewWidth;
+
 
             const scaleY =
                 targetHeight /
@@ -812,27 +848,32 @@ document.addEventListener("DOMContentLoaded", () => {
                             backgroundColor:
                                 null,
 
-                            width:
-                                previewWidth,
-
-                            height:
-                                previewHeight
+                            imageTimeout:
+                                15000
                         }
                     );
 
 
+                /* CANVAS FINAL */
+
                 const finalCanvas =
-                    document.createElement("canvas");
+                    document.createElement(
+                        "canvas"
+                    );
+
 
                 finalCanvas.width =
                     targetWidth;
+
 
                 finalCanvas.height =
                     targetHeight;
 
 
                 const finalContext =
-                    finalCanvas.getContext("2d");
+                    finalCanvas.getContext(
+                        "2d"
+                    );
 
 
                 finalContext.drawImage(
@@ -844,16 +885,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
+                /* NOMBRE DEL ARCHIVO */
+
+                let fileName =
+                    titleInput.value.trim();
+
+
+                fileName =
+                    fileName
+                        .replace(
+                            /[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]/g,
+                            ""
+                        )
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        );
+
+
+                if (!fileName) {
+
+                    fileName =
+                        "banner-filadelfia";
+
+                }
+
+
+                /* DESCARGAR */
+
                 const link =
-                    document.createElement("a");
+                    document.createElement(
+                        "a"
+                    );
+
 
                 link.download =
-                    `banner-filadelfia-${formatSelect.value}.png`;
+                    `${fileName}.png`;
+
 
                 link.href =
                     finalCanvas.toDataURL(
                         "image/png"
                     );
+
 
                 link.click();
 
@@ -863,7 +937,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error(error);
 
                 alert(
-                    "No se pudo generar el PNG."
+                    "No fue posible generar el banner. Intenta nuevamente."
                 );
 
             }
@@ -873,7 +947,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       CONFIGURACIÓN INICIAL
+       INICIO
        ===================================================== */
 
     updateLogoSize();
