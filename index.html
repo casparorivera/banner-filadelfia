@@ -1,362 +1,435 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Banner Filadelfia</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <!-- Librería para convertir el banner en PNG -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+    </script>
+
 </head>
+
 
 <body>
 
-    <header class="topbar">
-        <div>
-            <h1>Banner Filadelfia</h1>
-            <p>Generador de banners</p>
+
+<header class="topbar">
+
+    <div>
+
+        <h1>Banner Filadelfia</h1>
+
+        <p>Generador de banners</p>
+
+    </div>
+
+</header>
+
+
+<main class="app-container">
+
+
+    <!-- =====================================================
+         PANEL DE CONFIGURACIÓN
+         ===================================================== -->
+
+    <section class="panel controls-panel">
+
+        <h2>Crear banner</h2>
+
+
+        <!-- PLANTILLA -->
+
+        <div class="form-group">
+
+            <label for="templateSelect">
+                Plantilla
+            </label>
+
+            <select id="templateSelect">
+
+                <option value="">
+                    Cargando plantillas...
+                </option>
+
+            </select>
+
         </div>
-    </header>
 
 
-    <main class="app-container">
+        <!-- FORMATO -->
 
-        <!-- =========================
-             PANEL DE CONFIGURACIÓN
-        ========================== -->
+        <div class="form-group">
 
-        <section class="panel controls-panel">
+            <label for="formatSelect">
+                Formato
+            </label>
 
-            <h2>Crear banner</h2>
+            <select id="formatSelect">
 
-            <!-- PLANTILLA -->
+                <option value="square">
+                    Instagram / WhatsApp — 1080 × 1080
+                </option>
 
-            <div class="form-group">
+                <option value="story">
+                    Historia — 1080 × 1920
+                </option>
 
-                <label for="templateSelect">
-                    Plantilla
-                </label>
+                <option value="facebook">
+                    Facebook — 1200 × 628
+                </option>
 
-                <select id="templateSelect">
-                    <option value="">Cargando plantillas...</option>
-                </select>
+            </select>
 
-            </div>
+        </div>
 
 
-            <!-- FORMATO -->
+        <!-- TÍTULO -->
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label for="formatSelect">
-                    Formato
-                </label>
+            <label for="titleInput">
+                Título
+            </label>
 
-                <select id="formatSelect">
-
-                    <option value="square">
-                        Instagram / WhatsApp — 1080 × 1080
-                    </option>
-
-                    <option value="story">
-                        Historia — 1080 × 1920
-                    </option>
-
-                    <option value="facebook">
-                        Facebook — 1200 × 628
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- TÍTULO -->
-
-            <div class="form-group">
-
-                <label for="titleInput">
-                    Título
-                </label>
-
-                <input
-                    type="text"
-                    id="titleInput"
-                    placeholder="Ej: Noche de Adoración"
-                >
-
-            </div>
-
-
-            <!-- SUBTÍTULO -->
-
-            <div class="form-group">
-
-                <label for="subtitleInput">
-                    Subtítulo
-                </label>
-
-                <textarea
-                    id="subtitleInput"
-                    rows="3"
-                    placeholder="Ej: Una noche para encontrarnos con Dios"
-                ></textarea>
-
-            </div>
-
-
-            <!-- FECHA -->
-
-            <div class="form-group">
-
-                <label for="dateInput">
-                    Fecha
-                </label>
-
-                <input
-                    type="text"
-                    id="dateInput"
-                    placeholder="Viernes 20 de septiembre"
-                >
-
-            </div>
-
-
-            <!-- HORA -->
-
-            <div class="form-group">
-
-                <label for="timeInput">
-                    Hora
-                </label>
-
-                <input
-                    type="text"
-                    id="timeInput"
-                    placeholder="7:00 p. m."
-                >
-
-            </div>
-
-
-            <!-- LUGAR -->
-
-            <div class="form-group">
-
-                <label for="locationInput">
-                    Lugar
-                </label>
-
-                <input
-                    type="text"
-                    id="locationInput"
-                    placeholder="Iglesia Filadelfia"
-                >
-
-            </div>
-
-
-            <!-- TEXTO EXTRA -->
-
-            <div class="form-group">
-
-                <label for="extraInput">
-                    Texto adicional
-                </label>
-
-                <input
-                    type="text"
-                    id="extraInput"
-                    placeholder="Entrada libre"
-                >
-
-            </div>
-
-
-            <!-- IMAGEN -->
-
-            <div class="form-group">
-
-                <label for="imageInput">
-                    Imagen de fondo
-                </label>
-
-                <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <!-- LOGO -->
-
-            <div class="form-group">
-
-                <label for="logoInput">
-                    Logo
-                </label>
-
-                <input
-                    type="file"
-                    id="logoInput"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <button
-                id="downloadButton"
-                class="download-button"
+            <input
+                type="text"
+                id="titleInput"
+                placeholder="Ej: Noche de Adoración"
             >
-                ⬇ Generar PNG
-            </button>
 
-        </section>
+        </div>
 
 
-        <!-- =========================
-             PANEL DE VISTA PREVIA
-        ========================== -->
+        <!-- SUBTÍTULO -->
 
-        <section class="panel preview-panel">
+        <div class="form-group">
 
-            <div class="preview-header">
+            <label for="subtitleInput">
+                Subtítulo
+            </label>
 
-                <h2>Vista previa</h2>
+            <textarea
+                id="subtitleInput"
+                rows="3"
+                placeholder="Ej: Una noche para encontrarnos con Dios"
+            ></textarea>
 
-                <span id="formatLabel">
-                    1080 × 1080
+        </div>
+
+
+        <!-- FECHA -->
+
+        <div class="form-group">
+
+            <label for="dateInput">
+                Fecha
+            </label>
+
+            <input
+                type="text"
+                id="dateInput"
+                placeholder="Viernes 20 de septiembre"
+            >
+
+        </div>
+
+
+        <!-- HORA -->
+
+        <div class="form-group">
+
+            <label for="timeInput">
+                Hora
+            </label>
+
+            <input
+                type="text"
+                id="timeInput"
+                placeholder="7:00 p. m."
+            >
+
+        </div>
+
+
+        <!-- LUGAR -->
+
+        <div class="form-group">
+
+            <label for="locationInput">
+                Lugar
+            </label>
+
+            <input
+                type="text"
+                id="locationInput"
+                placeholder="Iglesia Filadelfia"
+            >
+
+        </div>
+
+
+        <!-- TEXTO EXTRA -->
+
+        <div class="form-group">
+
+            <label for="extraInput">
+                Texto adicional
+            </label>
+
+            <input
+                type="text"
+                id="extraInput"
+                placeholder="Entrada libre"
+            >
+
+        </div>
+
+
+        <!-- IMAGEN -->
+
+        <div class="form-group">
+
+            <label for="imageInput">
+                Imagen de fondo
+            </label>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             LOGO
+             ================================================= -->
+
+        <div class="form-group">
+
+            <label for="logoInput">
+                Logo
+            </label>
+
+            <input
+                type="file"
+                id="logoInput"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             TAMAÑO DEL LOGO
+             ================================================= -->
+
+        <div
+            class="form-group logo-size-group"
+            id="logoSizeGroup"
+        >
+
+            <label for="logoSizeInput">
+                Tamaño del logo
+            </label>
+
+
+            <div class="range-container">
+
+                <input
+                    type="range"
+                    id="logoSizeInput"
+                    min="5"
+                    max="30"
+                    value="15"
+                    step="1"
+                >
+
+
+                <span id="logoSizeValue">
+                    15%
                 </span>
 
             </div>
 
+        </div>
 
-            <div class="preview-area">
+
+        <!-- BOTÓN -->
+
+        <button
+            id="downloadButton"
+            class="download-button"
+        >
+            ⬇ Generar PNG
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PANEL DE VISTA PREVIA
+         ===================================================== -->
+
+    <section class="panel preview-panel">
+
+
+        <div class="preview-header">
+
+            <h2>
+                Vista previa
+            </h2>
+
+            <span id="formatLabel">
+                1080 × 1080
+            </span>
+
+        </div>
+
+
+
+        <div class="preview-area">
+
+
+            <div
+                id="banner"
+                class="banner square"
+            >
+
+
+                <!-- FONDO -->
 
                 <div
-                    id="banner"
-                    class="banner square"
-                >
+                    id="bannerBackground"
+                    class="banner-background"
+                ></div>
 
-                    <!-- FONDO -->
+
+                <!-- CAPA OSCURA -->
+
+                <div
+                    id="bannerOverlay"
+                    class="banner-overlay"
+                ></div>
+
+
+                <!-- CONTENIDO -->
+
+                <div class="banner-content">
+
+
+                    <!-- LOGO -->
+
+                    <img
+                        id="bannerLogo"
+                        class="banner-logo"
+                        alt="Logo"
+                    >
+
+
+                    <!-- TÍTULO -->
+
+                    <h1
+                        id="bannerTitle"
+                        class="banner-title"
+                    >
+                        Título del evento
+                    </h1>
+
+
+                    <!-- SUBTÍTULO -->
+
+                    <p
+                        id="bannerSubtitle"
+                        class="banner-subtitle"
+                    >
+                        Subtítulo del evento
+                    </p>
+
+
+                    <!-- INFORMACIÓN -->
 
                     <div
-                        id="bannerBackground"
-                        class="banner-background"
-                    ></div>
+                        id="bannerInfo"
+                        class="banner-info"
+                    >
 
+                        <span id="bannerDate">
+                            Fecha
+                        </span>
 
-                    <!-- CAPA OSCURA -->
+                        <span class="separator">
+                            •
+                        </span>
 
-                    <div
-                        id="bannerOverlay"
-                        class="banner-overlay"
-                    ></div>
-
-
-                    <!-- CONTENIDO -->
-
-                    <div class="banner-content">
-
-
-                        <!-- LOGO -->
-
-                        <img
-                            id="bannerLogo"
-                            class="banner-logo"
-                            alt="Logo"
-                        >
-
-
-                        <!-- TÍTULO -->
-
-                        <h1
-                            id="bannerTitle"
-                            class="banner-title"
-                        >
-                            Título del evento
-                        </h1>
-
-
-                        <!-- SUBTÍTULO -->
-
-                        <p
-                            id="bannerSubtitle"
-                            class="banner-subtitle"
-                        >
-                            Subtítulo del evento
-                        </p>
-
-
-                        <!-- INFORMACIÓN -->
-
-                        <div
-                            id="bannerInfo"
-                            class="banner-info"
-                        >
-
-                            <span id="bannerDate">
-                                Fecha
-                            </span>
-
-                            <span class="separator">
-                                •
-                            </span>
-
-                            <span id="bannerTime">
-                                Hora
-                            </span>
-
-                        </div>
-
-
-                        <!-- LUGAR -->
-
-                        <div
-                            id="bannerLocation"
-                            class="banner-location"
-                        >
-                            Lugar
-                        </div>
-
-
-                        <!-- TEXTO EXTRA -->
-
-                        <div
-                            id="bannerExtra"
-                            class="banner-extra"
-                        >
-                            Texto adicional
-                        </div>
-
+                        <span id="bannerTime">
+                            Hora
+                        </span>
 
                     </div>
+
+
+                    <!-- LUGAR -->
+
+                    <div
+                        id="bannerLocation"
+                        class="banner-location"
+                    >
+                        Lugar
+                    </div>
+
+
+                    <!-- TEXTO EXTRA -->
+
+                    <div
+                        id="bannerExtra"
+                        class="banner-extra"
+                    >
+                        Texto adicional
+                    </div>
+
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
-
-    <footer>
-
-        <p>
-            Banner Filadelfia · Generador de diseños
-        </p>
-
-    </footer>
+</main>
 
 
-    <script src="app.js"></script>
+<footer>
+
+    <p>
+        Banner Filadelfia · Generador de diseños
+    </p>
+
+</footer>
+
+
+<script src="app.js"></script>
 
 </body>
+
 </html>
