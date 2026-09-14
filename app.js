@@ -9,27 +9,47 @@ document.addEventListener("DOMContentLoaded", () => {
        ELEMENTOS DEL FORMULARIO
        ===================================================== */
 
-    const templateSelect = document.getElementById("templateSelect");
-    const formatSelect = document.getElementById("formatSelect");
+    const templateSelect =
+        document.getElementById("templateSelect");
 
-    const titleInput = document.getElementById("titleInput");
-    const subtitleInput = document.getElementById("subtitleInput");
-    const dateInput = document.getElementById("dateInput");
-    const timeInput = document.getElementById("timeInput");
-    const locationInput = document.getElementById("locationInput");
-    const extraInput = document.getElementById("extraInput");
+    const formatSelect =
+        document.getElementById("formatSelect");
 
-    const imageInput = document.getElementById("imageInput");
-    const logoInput = document.getElementById("logoInput");
+    const titleInput =
+        document.getElementById("titleInput");
 
-    const downloadButton = document.getElementById("downloadButton");
+    const subtitleInput =
+        document.getElementById("subtitleInput");
+
+    const dateInput =
+        document.getElementById("dateInput");
+
+    const timeInput =
+        document.getElementById("timeInput");
+
+    const locationInput =
+        document.getElementById("locationInput");
+
+    const extraInput =
+        document.getElementById("extraInput");
+
+    const imageInput =
+        document.getElementById("imageInput");
+
+    const logoInput =
+        document.getElementById("logoInput");
+
+    const downloadButton =
+        document.getElementById("downloadButton");
 
 
     /* =====================================================
        ELEMENTOS DEL BANNER
        ===================================================== */
 
-    const banner = document.getElementById("banner");
+    const banner =
+        document.getElementById("banner");
+
     const bannerBackground =
         document.getElementById("bannerBackground");
 
@@ -84,9 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 await fetch("templates.json");
 
             if (!response.ok) {
+
                 throw new Error(
                     "No se pudo cargar templates.json"
                 );
+
             }
 
             templates =
@@ -118,10 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            /* Seleccionar primera plantilla */
-
             const firstTemplate =
                 Object.keys(templates)[0];
+
 
             if (firstTemplate) {
 
@@ -160,6 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         const template =
             currentTemplate;
 
@@ -185,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* -------------------------------------------------
-           FONDO
+           FONDO DE LA PLANTILLA
            ------------------------------------------------- */
 
         if (template.background) {
@@ -194,6 +216,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 template.background;
 
         }
+
+
+        /* -------------------------------------------------
+           POSICIÓN DEL FONDO
+           ------------------------------------------------- */
+
+        bannerBackground.style.backgroundPosition =
+            template.backgroundPosition ||
+            "center center";
 
 
         /* -------------------------------------------------
@@ -280,8 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /* Actualizar banner */
-
         updateBanner();
 
     }
@@ -292,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     function updateBanner() {
-
 
         /* -------------------------------------------------
            TÍTULO
@@ -379,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* -------------------------------------------------
-           MOSTRAR / OCULTAR SEPARADOR
+           SEPARADOR
            ------------------------------------------------- */
 
         if (separator) {
@@ -413,8 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "none";
 
 
-        /* Actualizar formato */
-
         updateFormat();
 
     }
@@ -443,7 +469,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /* -------------------------------------------------
-           ETIQUETA DEL FORMATO
+           ETIQUETA
            ------------------------------------------------- */
 
         if (format === "square") {
@@ -469,6 +495,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
+        /* -------------------------------------------------
+           Mantener posición del fondo
+           ------------------------------------------------- */
+
+        if (bannerBackground) {
+
+            bannerBackground.style.backgroundSize =
+                "cover";
+
+        }
+
     }
 
 
@@ -487,6 +525,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+
+            /* Comprobar que realmente sea una imagen */
+
+            if (!file.type.startsWith("image/")) {
+
+                alert(
+                    "Por favor selecciona una imagen válida."
+                );
+
+                imageInput.value = "";
+
+                return;
+
+            }
+
+
             const reader =
                 new FileReader();
 
@@ -494,8 +548,22 @@ document.addEventListener("DOMContentLoaded", () => {
             reader.onload =
                 (e) => {
 
+                    /*
+                     * La fotografía ocupa todo el banner.
+                     * background-size: cover evita deformaciones.
+                     */
+
                     bannerBackground.style.backgroundImage =
                         `url("${e.target.result}")`;
+
+                    bannerBackground.style.backgroundSize =
+                        "cover";
+
+                    bannerBackground.style.backgroundRepeat =
+                        "no-repeat";
+
+                    bannerBackground.style.backgroundPosition =
+                        "center center";
 
                 };
 
@@ -520,6 +588,20 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!file) {
                 return;
             }
+
+
+            if (!file.type.startsWith("image/")) {
+
+                alert(
+                    "Por favor selecciona una imagen válida para el logo."
+                );
+
+                logoInput.value = "";
+
+                return;
+
+            }
+
 
             const reader =
                 new FileReader();
@@ -548,12 +630,14 @@ document.addEventListener("DOMContentLoaded", () => {
        ===================================================== */
 
     const inputs = [
+
         titleInput,
         subtitleInput,
         dateInput,
         timeInput,
         locationInput,
         extraInput
+
     ];
 
 
@@ -621,57 +705,99 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            const originalWidth =
-                banner.style.width;
+            /*
+             * El banner que vemos en pantalla tiene un tamaño
+             * reducido para que quepa cómodamente en el navegador.
+             *
+             * Aquí calculamos cuánto debemos ampliar la captura
+             * para obtener exactamente el tamaño final.
+             */
 
-            const originalHeight =
-                banner.style.height;
-
-
-            /* -------------------------------------------------
-               TAMAÑO REAL DE EXPORTACIÓN
-               ------------------------------------------------- */
-
-            const format =
-                formatSelect.value;
+            let targetWidth;
+            let targetHeight;
 
 
-            if (format === "square") {
+            if (
+                formatSelect.value ===
+                "square"
+            ) {
 
-                banner.style.width =
-                    "1080px";
-
-                banner.style.height =
-                    "1080px";
+                targetWidth = 1080;
+                targetHeight = 1080;
 
             }
 
 
-            if (format === "story") {
+            if (
+                formatSelect.value ===
+                "story"
+            ) {
 
-                banner.style.width =
-                    "1080px";
-
-                banner.style.height =
-                    "1920px";
-
-            }
-
-
-            if (format === "facebook") {
-
-                banner.style.width =
-                    "1200px";
-
-                banner.style.height =
-                    "628px";
+                targetWidth = 1080;
+                targetHeight = 1920;
 
             }
 
 
-            /* -------------------------------------------------
-               GENERAR IMAGEN
-               ------------------------------------------------- */
+            if (
+                formatSelect.value ===
+                "facebook"
+            ) {
+
+                targetWidth = 1200;
+                targetHeight = 628;
+
+            }
+
+
+            /*
+             * Medidas actuales de la vista previa.
+             */
+
+            const previewWidth =
+                banner.getBoundingClientRect().width;
+
+            const previewHeight =
+                banner.getBoundingClientRect().height;
+
+
+            /*
+             * Escala necesaria para obtener el tamaño final.
+             */
+
+            const scaleX =
+                targetWidth /
+                previewWidth;
+
+            const scaleY =
+                targetHeight /
+                previewHeight;
+
+
+            /*
+             * Usamos la escala horizontal.
+             * Los formatos mantienen exactamente la misma
+             * proporción entre vista previa y archivo final.
+             */
+
+            const exportScale =
+                Math.max(
+                    scaleX,
+                    scaleY
+                );
+
+
+            /*
+             * Evitar problemas de memoria en dispositivos
+             * que tengan poca capacidad.
+             */
+
+            const safeScale =
+                Math.min(
+                    exportScale,
+                    3
+                );
+
 
             try {
 
@@ -679,16 +805,65 @@ document.addEventListener("DOMContentLoaded", () => {
                     await html2canvas(
                         banner,
                         {
-                            scale: 1,
-                            useCORS: true,
-                            backgroundColor: null
+                            scale:
+                                safeScale,
+
+                            useCORS:
+                                true,
+
+                            allowTaint:
+                                false,
+
+                            backgroundColor:
+                                null,
+
+                            imageTimeout:
+                                15000
                         }
                     );
 
 
-                const link =
-                    document.createElement("a");
+                /*
+                 * Crear canvas final exactamente
+                 * en las dimensiones solicitadas.
+                 */
 
+                const finalCanvas =
+                    document.createElement(
+                        "canvas"
+                    );
+
+
+                finalCanvas.width =
+                    targetWidth;
+
+                finalCanvas.height =
+                    targetHeight;
+
+
+                const finalContext =
+                    finalCanvas.getContext(
+                        "2d"
+                    );
+
+
+                /*
+                 * Dibujar la captura ampliada
+                 * en el tamaño definitivo.
+                 */
+
+                finalContext.drawImage(
+                    canvas,
+                    0,
+                    0,
+                    targetWidth,
+                    targetHeight
+                );
+
+
+                /*
+                 * Nombre del archivo
+                 */
 
                 let fileName =
                     titleInput.value.trim();
@@ -714,12 +889,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
+                /*
+                 * Descargar PNG
+                 */
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
                 link.download =
                     `${fileName}.png`;
 
 
                 link.href =
-                    canvas.toDataURL(
+                    finalCanvas.toDataURL(
                         "image/png"
                     );
 
@@ -736,17 +921,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
             }
-
-
-            /* -------------------------------------------------
-               RESTAURAR VISTA PREVIA
-               ------------------------------------------------- */
-
-            banner.style.width =
-                originalWidth;
-
-            banner.style.height =
-                originalHeight;
 
         }
     );
