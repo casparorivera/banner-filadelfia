@@ -1,0 +1,67 @@
+{
+  "worship": {
+    "name": "Worship Moderno",
+
+    "background": "linear-gradient(135deg, #392b50 0%, #15121d 55%, #09090d 100%)",
+
+    "textColor": "#ffffff",
+
+    "overlay": "linear-gradient(180deg, rgba(20, 12, 35, 0.10) 0%, rgba(0, 0, 0, 0.78) 100%)",
+
+    "title": {
+      "fontSize": "48px",
+      "fontWeight": "800",
+      "letterSpacing": "-1.5px",
+      "textTransform": "uppercase"
+    },
+
+    "subtitle": {
+      "fontSize": "20px",
+      "fontWeight": "400"
+    }
+  },
+
+  "elegante": {
+    "name": "Elegante",
+
+    "background": "linear-gradient(135deg, #4a4035 0%, #1f1b17 55%, #0d0c0b 100%)",
+
+    "textColor": "#ffffff",
+
+    "overlay": "linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.72) 100%)",
+
+    "title": {
+      "fontSize": "46px",
+      "fontWeight": "700",
+      "letterSpacing": "-0.8px",
+      "textTransform": "none"
+    },
+
+    "subtitle": {
+      "fontSize": "19px",
+      "fontWeight": "400"
+    }
+  },
+
+  "minimalista": {
+    "name": "Minimalista",
+
+    "background": "linear-gradient(135deg, #20242a 0%, #101215 100%)",
+
+    "textColor": "#ffffff",
+
+    "overlay": "linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.65) 100%)",
+
+    "title": {
+      "fontSize": "44px",
+      "fontWeight": "700",
+      "letterSpacing": "-1px",
+      "textTransform": "none"
+    },
+
+    "subtitle": {
+      "fontSize": "18px",
+      "fontWeight": "400"
+    }
+  }
+}
